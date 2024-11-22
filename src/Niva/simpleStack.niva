@@ -85,8 +85,8 @@ extend Stack [
     (index < 0) || (index > top) ifTrue: [
       Error throwWithMessage: "Index out of bounds!" |> orPANIC
     ]
-    temp = this popAt: index
-    this push: temp 
+    temp = this popAt: index |> orPANIC
+    this push: temp
   ]
   on toBottom: index::Int = [
     (index < 0) || (index > top) ifTrue: [
