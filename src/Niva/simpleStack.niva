@@ -49,11 +49,11 @@ extend Stack [
     stack <- list
   ]
   on push: value::T at: index::Int -> Unit = [
-    [(index < 0) || (index > top)] ifTrue: [ Error throwWithMessage: "Index out of bounds!" |> orPANIC ]
+    (index < 0) || (index > top) ifTrue: [ Error throwWithMessage: "Index out of bounds!" |> orPANIC ]
     stack at: index put: value
   ]
   on popAt: index::Int -> T = [
-    index < 0 || index > top ifTrue: [
+    (index < 0) || (index > top) ifTrue: [
       Error throwWithMessage: "Index out of bounds!" |> orPANIC
     ]
     result = stack at: index
@@ -62,24 +62,41 @@ extend Stack [
     ^ result
   ]
   on insert: value::T at: index::Int -> Unit = [
-    index < 0 || index > top ifTrue: [
+    (index < 0) || (index > top) ifTrue: [
       Error throwWithMessage: "Index out of bounds!" |> orPANIC
     ]
-    stack insert: value at: index
+    stack at: index insert: value
     top <- top inc
   ]
-  on move: index1::Int to: index2::Int -> Unit = [
-    index1 < 0 || index1 > top || index2 < 0 || index2 > top ifTrue: [
+  on move: index1::Int to: index2::Int -> Unit! = [
+    (index1 < 0) || (index1 > top) || (index2 < 0) || (index2 > top) ifTrue: [
       Error throwWithMessage: "Index out of bounds!" |> orPANIC
     ]
-    temp = stack popAt: index1
-    stack insert: temp at: index2
+    temp = this popAt: index1
+    this insert: temp at: index2
   ]
   on swapTopWith: value::T -> T = [
     .isEmpty => Error throwWithMessage: "Stack is empty!" |> orPANIC
-    temp = stack pop
-    stack push value
+    temp = this pop
+    this push value
     ^ temp
+  ]
+  on toTop: index::Int = [
+    (index < 0) || (index > top) ifTrue: [
+      Error throwWithMessage: "Index out of bounds!" |> orPANIC
+    ]
+    temp = this popAt: index
+    this push temp
+  ]
+  on toBottom: index::Int = [
+    (index < 0) || (index > top) ifTrue: [
+      Error throwWithMessage: "Index out of bounds!" |> orPANIC
+    ]
+    temp = this popAt: index
+    this insert: temp at: 0
+  ]
+  on reverse = [
+    stack reverse
   ]
 ]
 
