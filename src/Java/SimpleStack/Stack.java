@@ -1,12 +1,16 @@
-public class SimpleStack<T>{
+package src.Java.SimpleStack;
+
+import java.lang.reflect.Array;
+
+public class Stack<T>{
     private T[] body;
     private int top;
     public final int size;
 
     @SuppressWarnings("unchecked")
-    public SimpleStack(int size){
+    public Stack(int size, Class<T> c){
         this.size = size;
-        body = (T[]) new Object[size];
+        body = (T[]) Array.newInstance(c, size);
         top = -1;
     }
 
@@ -163,7 +167,8 @@ public class SimpleStack<T>{
 
     public int top(){ return this.top; }
     public T[] body(){ return this.body; }
-    public String toString(){ return this.body.toString(); }
+    @Override
+    public String toString(){ StringBuilder sb = new StringBuilder(); for(int i = 0; i <= top; i++){ sb.append(body[i] + " "); } return sb.toString(); }
     public void printTop(){ System.out.println("Top: " + this.top + " Element: " + this.peek()); }
 
     /**
@@ -200,7 +205,7 @@ public class SimpleStack<T>{
         }
     }
 
-    public boolean equals(SimpleStack<T> stack){
+    public boolean equals(Stack<T> stack){
         if(this.top != stack.top){ return false; }
         for(int i = 0; i <= top; i++){
             if(this.body[i] != stack.body[i]){ return false; }
