@@ -75,18 +75,18 @@ extend Stack [
     temp = this popAt: index1
     this insert: temp at: index2
   ]
-  on swapTopWith: value::T -> T = [
+  on swapTopWith: value::T -> T! = [
     .isEmpty => Error throwWithMessage: "Stack is empty!" |> orPANIC
-    temp = this pop
-    this push value
+    temp = this pop |> orPANIC
+    .push: value
     ^ temp
   ]
-  on toTop: index::Int = [
+  on toTop: index::Int -> Unit! = [
     (index < 0) || (index > top) ifTrue: [
       Error throwWithMessage: "Index out of bounds!" |> orPANIC
     ]
     temp = this popAt: index
-    this push temp
+    this push: temp 
   ]
   on toBottom: index::Int = [
     (index < 0) || (index > top) ifTrue: [
