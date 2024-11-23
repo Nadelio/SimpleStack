@@ -68,27 +68,27 @@ extend Stack [
     stack at: index insert: value
     top <- top inc
   ]
-  on move: index1::Int to: index2::Int -> Unit! = [
+  on move: index1::Int to: index2::Int -> Unit = [
     (index1 < 0) || (index1 > top) || (index2 < 0) || (index2 > top) ifTrue: [
       Error throwWithMessage: "Index out of bounds!" |> orPANIC
     ]
     temp = this popAt: index1
-    this insert: temp at: index2
+    // this insert: temp at: index2
   ]
-  on swapTopWith: value::T -> T! = [
+  on swapTopWith: value::T -> T = [
     .isEmpty => Error throwWithMessage: "Stack is empty!" |> orPANIC
-    temp = this pop |> orPANIC
+    temp = this pop
     .push: value
     ^ temp
   ]
-  on toTop: index::Int -> Unit! = [
+  on toTop: index::Int -> Unit = [
     (index < 0) || (index > top) ifTrue: [
       Error throwWithMessage: "Index out of bounds!" |> orPANIC
     ]
-    temp = this popAt: index |> orPANIC
+    temp = this popAt: index
     this push: temp
-  ]
-  on toBottom: index::Int = [
+  ] 
+  on toBottom: index::Int -> Unit = [
     (index < 0) || (index > top) ifTrue: [
       Error throwWithMessage: "Index out of bounds!" |> orPANIC
     ]
@@ -96,7 +96,7 @@ extend Stack [
     this insert: temp at: 0
   ]
   on reverse = [
-    stack reverse
+    stack <- stack reversed toMutableList
   ]
 ]
 
