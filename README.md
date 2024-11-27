@@ -2,9 +2,9 @@
 
 ## Java
 ```java
-import Java.SimpleStack.Stack
+import Java.SimpleStack.Stack;
 
-public class Main{
+public class Main {
     public static void main(String[] args){
         Stack<Integer> stack = new Stack<Integer>(3, Integer.class);
         stack.push(1);
