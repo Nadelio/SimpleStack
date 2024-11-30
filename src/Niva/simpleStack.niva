@@ -15,21 +15,19 @@ constructor Stack ofSize::Int = [
 extend Stack [
   on isEmpty = top == -1
   on push: value::T -> Unit = [
-    top >= (size - 1) ifTrue: [
-      Error throwWithMessage: "Stack is full!" |> orPANIC
-    ] 
+    top >= (size - 1) assertFalse: "Stack is full!"
     top <- top inc
     stack add: value
   ]
   on pop -> T = [
-    .isEmpty => Error throwWithMessage: "Stack is empty!" |> orPANIC
+    .isEmpty assertFalse: "Stack is empty!"
     result = stack at: top
     stack removeAt: top
     top <- top dec
     ^ result
   ]
    on peek -> T = [
-    .isEmpty => Error throwWithMessage: "Stack is empty!" |> orPANIC
+    .isEmpty assertFalse: "Stack is empty!"
     ^ stack at: top
   ]
   on isFull = top == (size - 1)
@@ -48,23 +46,22 @@ extend Stack [
     top <- -1
     stack <- list
   ]
+  on isOutOfBounce: index::Int = (index < 0) || (index > top)
+
   on push: value::T at: index::Int -> Unit = [
-    (index < 0) || (index > top) ifTrue: [ Error throwWithMessage: "Index out of bounds!" |> orPANIC ]
+    (.isOutOfBounce: index) assertFalse: "Index out of bounds!"
     stack at: index put: value
   ]
   on popAt: index::Int -> T = [
-    (index < 0) || (index > top) ifTrue: [
-      Error throwWithMessage: "Index out of bounds!" |> orPANIC
-    ]
+    (.isOutOfBounce: index) assertFalse: "Index out of bounds!"
     result = stack at: index
     stack removeAt: index
     top <- top dec
     ^ result
   ]
   on insert: value::T at: index::Int -> Unit = [
-    (index < 0) || (index > top) ifTrue: [
-      Error throwWithMessage: "Index out of bounds!" |> orPANIC
-    ]
+    (.isOutOfBounce: index) assertFalse: "Index out of bounds!"
+
     stack at: index insert: value
     top <- top inc
   ]
@@ -72,6 +69,9 @@ extend Stack [
     (index1 < 0) || (index1 > top) || (index2 < 0) || (index2 > top) ifTrue: [
       Error throwWithMessage: "Index out of bounds!" |> orPANIC
     ]
+    (index1 < 0) || (index1 > top) || (index2 < 0) || (index2 > top) 
+      assertFalse: "Index out of bounds!"
+    
     temp = this popAt: index1
     // this insert: temp at: index2
   ]
@@ -82,16 +82,14 @@ extend Stack [
     ^ temp
   ]
   on toTop: index::Int -> Unit = [
-    (index < 0) || (index > top) ifTrue: [
-      Error throwWithMessage: "Index out of bounds!" |> orPANIC
-    ]
+    (.isOutOfBounce: index) assertFalse: "Index out of bounds!"
+    
     temp = this popAt: index
     this push: temp
   ] 
   on toBottom: index::Int -> Unit = [
-    (index < 0) || (index > top) ifTrue: [
-      Error throwWithMessage: "Index out of bounds!" |> orPANIC
-    ]
+    (.isOutOfBounce: index) assertFalse: "Index out of bounds!"
+
     temp = this popAt: index
     this insert: temp at: 0
   ]

@@ -40,5 +40,4 @@ Output:
 ```
 > Stack size: 3 top: 1 stack: [1, 2]
 > Stack size: 3 top: 2 stack: [a, b, c]
-> 
 ```

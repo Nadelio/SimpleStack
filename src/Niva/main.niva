@@ -1,1 +1,44 @@
-1
+// run `niva test`
+Test push = [
+  stack = Stack::Int ofSize: 3
+  stack push: 1
+  stack push: 2
+  stack push: 3
+  Assert that: stack toStr equals: "Stack{ 1 2 3 }"
+]
+
+Test pop = [
+  stack = Stack::Int ofSize: 3
+  stack push: 1
+  stack push: 2
+  stack pop
+  stack pop
+  Assert that: stack count equals: 0
+  Assert that: stack toStr equals: "Stack{ }"
+]
+
+Test clear = [
+  stack = Stack::Int ofSize: 3
+  stack push: 1
+  stack push: 2
+  stack clear
+  Assert that: stack count equals: 0
+  Assert that: stack toStr equals: "Stack{ }"
+]
+
+Test pushAtIndex = [
+  stack = Stack::Int ofSize: 3
+  stack push: 1
+  stack push: 2
+  stack push: 3 at: 1
+  Assert that: stack toStr equals: "Stack{ 1 3 }"
+]
+
+Test pushInsert = [
+  stack = Stack::Int ofSize: 3
+  stack push: 1
+  stack push: 2
+  stack insert: 3 at: 1
+  Assert that: stack toStr equals: "Stack{ 1 3 2 }"
+]
+
